@@ -57,9 +57,10 @@ def testB():
     s.append("casal")
     s.append("casale")
     length = len(s)
-    dizionario = pickle.load(open("dictionary.p", "rb"))
+    dizionario = pickle.load(open("dizionario.p", "rb"))
     list1 = []
     list2 = []
+    edit = DistanceManager()
     for i in range(1, length):
         start = timer()
         for j in range(1, len(dizionario)):
@@ -67,9 +68,8 @@ def testB():
             a = list(a)
             b = dizionario[j]
             b = list(b)
-            edit = DistanceManager()
             edit.edit_distance(a, b)
-            list1.append(edit.matrix[len(a)][len(b)])
+            list1.append(edit.matrice[len(a)][len(b)])
             list2.append(dizionario[j])
         end = timer()
         tempo = end - start
@@ -78,8 +78,30 @@ def testB():
     print T
 
 
+def testC():
+    T = []
+    dizionario = pickle.load(open("dizionario.p", "rb"))
+    edit = DistanceManager()
+    a = "micio"
+    a = edit.trova_ngrammi(a, 2)
+    s = a[0]
+    F = []
+    Lista = []
+    for i in range(0, len(dizionario)):
+        F.append(edit.trova_ngrammi(dizionario[i], 2))
+        for j in range(0, len(F[i])):
+            if F[i][j] == s:
+                Lista.append(dizionario[i])
+    print Lista
+    for i in range(0, len(Lista)):
+        start = timer()
+        a = list(a)
+        b = list(Lista[i])
+        edit.edit_distance(a, b)
+        end = timer()
+        time = end - start
+        T.append(time)
+    print T
 
 
-
-testA()
 testB()

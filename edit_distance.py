@@ -1,5 +1,6 @@
 import pickle
 
+
 class DistanceManager:
     def __init__(self):
         self.matrice = []
@@ -9,29 +10,31 @@ class DistanceManager:
     def set_costo(self, c):
         self.costo = c
 
-    def edit_distance(self, x, y):
+    def edit_distance(self, a, b):
 
-        m = len(x) + 1
-        n = len(y) + 1
-        self.matrice = [[0 for k in range(n)] for k in range(m)]
-        self.operazione = [[0 for k in range(n)] for k in range(m)]
-        for riga in range(1, m):
+        self.righe = len(a) + 1
+        self.colonne = len(b) + 1
+        self.matrice = [[0 for k in range(self.colonne)] for k in range(self.righe)]
+        self.operazione = [[0 for k in range(self.colonne)] for k in range(self.righe)]
+        for riga in range(1, self.righe):
             self.matrice[riga][0] = riga * self.costo[2]
             self.operazione[riga][0] = "DELETE"
-        for colonna in range(1, n):
+        for colonna in range(1, self.colonne):
             self.matrice[0][colonna] = colonna * self.costo[1]
             self.operazione[0][colonna] = "INSERT"
-        for riga in range(1, m):
-            for colonna in range(1, n):
+        for riga in range(1, self.righe):
+            for colonna in range(1, self.colonne):
                 self.matrice[riga][colonna] = float("inf")
-                if x[riga - 1] == y[colonna - 1]:
+                if a[riga - 1] == b[colonna - 1]:
                     self.matrice[riga][colonna] = self.matrice[riga - 1][colonna - 1] + self.costo[3]
                     self.operazione[riga][colonna] = "COPY"
-                if x[riga - 1] != y[colonna - 1] and self.matrice[riga - 1][colonna - 1] + self.costo[2] < self.matrice[riga][colonna]:
+                if a[riga - 1] != b[colonna - 1] and self.matrice[riga - 1][colonna - 1] + self.costo[2] < \
+                        self.matrice[riga][colonna]:
                     self.matrice[riga][colonna] = self.matrice[riga - 1][colonna - 1] + self.costo[2]
-                    self.operazione[riga][colonna] = "REPLACE by" + str(y[colonna - 1])
-                if riga >= 2 and colonna >= 2 and x[riga - 1] == y[colonna - 2] and x[riga - 2] == y[colonna - 1] and \
-                                        self.matrice[riga - 2][colonna - 2] + self.costo[4] < self.matrice[riga][colonna]:
+                    self.operazione[riga][colonna] = "REPLACE by" + b[colonna - 1]
+                if riga >= 2 and colonna >= 2 and a[riga - 1] == b[colonna - 2] and a[riga - 2] == b[colonna - 1] and \
+                                        self.matrice[riga - 2][colonna - 2] + self.costo[4] < self.matrice[riga][
+                            colonna]:
                     self.matrice[riga][colonna] = self.matrice[riga - 2][colonna - 2] + self.costo[4]
                     self.operazione[riga][colonna] = "TWIDDLE"
                 if self.matrice[riga - 1][colonna] + self.costo[1] < self.matrice[riga][colonna]:
@@ -39,14 +42,7 @@ class DistanceManager:
                     self.operazione[riga][colonna] = "DELETE"
                 if self.matrice[riga][colonna - 1] + self.costo[0] < self.matrice[riga][colonna]:
                     self.matrice[riga][colonna] = self.matrice[riga][colonna - 1] + self.costo[0]
-                    self.operazione[riga][colonna] = "INSERT " + str(y[colonna - 1])
-
-        for r in range(m):
-            print(self.matrice[r])
-        for k in range(m):
-            print(self.operazione[k])
-
-        self._sequenza_operazioni(m - 1, n - 1)
+                    self.operazione[riga][colonna] = "INSERT " + y[colonna - 1]
 
     def _sequenza_operazioni(self, i, j):
 
@@ -91,13 +87,13 @@ edit.edit_distance(x, y)  # conversione ciao in caio
 sub = "edo"
 str = "edo"
 A = edit.trova_ngrammi(sub, 2)
-print A
 B = edit.trova_ngrammi(str, 2)
 print B
 print edit.jaccard(A, B)  # Prende in input due liste di n-gram e calcola il coeff.di Jaccard
 print str.count(sub, 0, 40)
 
-dizionario = open("60000_parole_italiane.txt", "r")  # blocco di codice per convertire file txt in un array pickle usabile per i confronti
+dizionario = open("60000_parole_italiane.txt",
+                  "r")  # blocco di codice per convertire file txt in un array pickle usabile per i confronti
 dizionario = dizionario.readlines()
 final_list = []
 for i in dizionario:
