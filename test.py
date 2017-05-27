@@ -11,7 +11,6 @@ def max(a, b):
             ind = i
     return b[ind], max
 
-
 def min(a, b):
     min = float("inf")
     for i in range(0, len(a)):
@@ -19,7 +18,6 @@ def min(a, b):
             min = a[i]
             ind = i
     return b[ind], min
-
 
 def testA():
     T = []
@@ -82,26 +80,32 @@ def testC():
     T = []
     dizionario = pickle.load(open("dizionario.p", "rb"))
     edit = DistanceManager()
-    a = "micio"
+    a = "ciao"
     a = edit.trova_ngrammi(a, 2)
     s = a[0]
     F = []
-    Lista = []
+    Lista1 = []
+    Lista2 = []
     for i in range(0, len(dizionario)):
+        start = timer()
         F.append(edit.trova_ngrammi(dizionario[i], 2))
         for j in range(0, len(F[i])):
             if F[i][j] == s:
-                Lista.append(dizionario[i])
-    print Lista
-    for i in range(0, len(Lista)):
-        start = timer()
-        a = list(a)
-        b = list(Lista[i])
-        edit.edit_distance(a, b)
+                Lista1.append(dizionario[i])
         end = timer()
         time = end - start
         T.append(time)
+    print Lista1
+    for i in range(0, len(Lista1)):
+        a = list(a)
+        b = list(Lista1[i])
+        start = timer()
+        edit.edit_distance(a, b)
+        end = timer()
+        time = end - start
+        T.append(time + T[i])
+        Lista2.append(edit.matrice[len(a)][len(b)])
     print T
+    print min(Lista2, Lista1)
 
-
-testB()
+testC()
