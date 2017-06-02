@@ -113,14 +113,13 @@ def testC():
     pickle.dump(T[0:5], open("tC.p", "wb"))
 
 
-
 def runAllTestAndPlot():
     testA()
-    A=pickle.load(open("tA.p", "rb"))
+    A = pickle.load(open("tA.p", "rb"))
     testB()
-    B=pickle.load(open("tB.p", "rb"))
+    B = pickle.load(open("tB.p", "rb"))
     testC()
-    C=pickle.load(open("tC.p", "rb"))
+    C = pickle.load(open("tC.p", "rb"))
     plt.plot(A, label="testA")
     plt.plot(B, label="testB")
     plt.plot(C, label="testC")

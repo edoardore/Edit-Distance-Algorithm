@@ -79,6 +79,7 @@ class DistanceManager:
         s2 = set(s2)
         return float(len(s1 & s2)) / len(s1 | s2)
 
+
 def provaClasse():
     y = ["C", "I", "A", "O"]
     x = ["C", "A", "I", "O"]
@@ -89,7 +90,8 @@ def provaClasse():
     A = edit.trova_ngrammi(sub, 2)
     B = edit.trova_ngrammi(str, 2)
     print B
-    print "Jaccard tra",sub,"e", str,":", edit.jaccard(A, B)
+    print "Jaccard tra", sub, "e", str, ":", edit.jaccard(A, B)
+
 
 def openDict():
     dizionario = open("60000_parole_italiane.txt", "r")
