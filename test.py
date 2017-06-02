@@ -1,6 +1,7 @@
 from edit_distance import DistanceManager
 import pickle
 from timeit import default_timer as timer
+from matplotlib import pyplot as plt
 
 
 def max(a, b):
@@ -45,6 +46,7 @@ def testA():
         time = end - start
         T.append(time)
         print"testA------------->", s[j], max(list1, list2)
+        pickle.dump(T, open("tA.p", "wb"))
 
 
 def testB():
@@ -75,7 +77,7 @@ def testB():
         tempo = end - start
         T.append(tempo)
         print"testB------------->", s[i], min(list1, list2)
-    print T
+    pickle.dump(T, open("tB.p", "wb"))
 
 
 def testC():
@@ -83,7 +85,7 @@ def testC():
     dizionario = pickle.load(open("dizionario.p", "rb"))
     edit = DistanceManager()
     a = "parola"
-    z=a
+    z = a
     a = edit.trova_ngrammi(a, 2)
     s = a[0]
     F = []
@@ -98,7 +100,6 @@ def testC():
         end = timer()
         time = end - start
         T.append(time)
-    print Lista1
     for i in range(0, len(Lista1)):
         a = list(z)
         b = list(Lista1[i])
@@ -108,8 +109,23 @@ def testC():
         time = end - start
         T.append(time + T[i])
         Lista2.append(edit.matrice[len(a)][len(b)])
-    print T
-    print min(Lista2, Lista1)
+    print"testC------------->", min(Lista2, Lista1)
+    pickle.dump(T[0:5], open("tC.p", "wb"))
 
 
-testC()
+
+def runAllTestAndPlot():
+    testA()
+    A=pickle.load(open("tA.p", "rb"))
+    testB()
+    B=pickle.load(open("tB.p", "rb"))
+    testC()
+    C=pickle.load(open("tC.p", "rb"))
+    plt.plot(A, label="testA")
+    plt.plot(B, label="testB")
+    plt.plot(C, label="testC")
+    plt.legend()
+    plt.show()
+
+
+runAllTestAndPlot()
