@@ -42,7 +42,7 @@ class DistanceManager:
                     self.operazione[riga][colonna] = "DELETE"
                 if self.matrice[riga][colonna - 1] + self.costo[0] < self.matrice[riga][colonna]:
                     self.matrice[riga][colonna] = self.matrice[riga][colonna - 1] + self.costo[0]
-                    self.operazione[riga][colonna] = "INSERT " + y[colonna - 1]
+                    self.operazione[riga][colonna] = "INSERT " + b[colonna - 1]
 
     def _sequenza_operazioni(self, i, j):
 
@@ -79,24 +79,25 @@ class DistanceManager:
         s2 = set(s2)
         return float(len(s1 & s2)) / len(s1 | s2)
 
+def provaClasse():
+    y = ["C", "I", "A", "O"]
+    x = ["C", "A", "I", "O"]
+    edit = DistanceManager()
+    edit.edit_distance(x, y)
+    sub = "edoardo"
+    str = "odoardo"
+    A = edit.trova_ngrammi(sub, 2)
+    B = edit.trova_ngrammi(str, 2)
+    print B
+    print "Jaccard tra",sub,"e", str,":", edit.jaccard(A, B)
 
-y = ["C", "I", "A", "O"]
-x = ["C", "A", "I", "O"]
-edit = DistanceManager()
-edit.edit_distance(x, y)  # conversione ciao in caio
-sub = "edo"
-str = "edo"
-A = edit.trova_ngrammi(sub, 2)
-B = edit.trova_ngrammi(str, 2)
-print B
-print edit.jaccard(A, B)  # Prende in input due liste di n-gram e calcola il coeff.di Jaccard
-print str.count(sub, 0, 40)
+def openDict():
+    dizionario = open("60000_parole_italiane.txt", "r")
+    dizionario = dizionario.readlines()
+    list = []
+    for i in dizionario:
+        list.append(i.strip())
+    pickle.dump(list, open("dizionario.p", "wb"))
 
-dizionario = open("60000_parole_italiane.txt",
-                  "r")  # blocco di codice per convertire file txt in un array pickle usabile per i confronti
-dizionario = dizionario.readlines()
-final_list = []
-for i in dizionario:
-    final_list.append(i.strip())  # elimino gli /n
-print final_list
-pickle.dump(final_list, open("dizionario.p", "wb"))
+
+openDict()

@@ -44,7 +44,7 @@ def testA():
         end = timer()
         time = end - start
         T.append(time)
-        print"A------------->", s[j], max(list1, list2)
+        print"testA------------->", s[j], max(list1, list2)
 
 
 def testB():
@@ -74,7 +74,7 @@ def testB():
         end = timer()
         tempo = end - start
         T.append(tempo)
-        print"B------------->", s[i], min(list1, list2)
+        print"testB------------->", s[i], min(list1, list2)
     print T
 
 
