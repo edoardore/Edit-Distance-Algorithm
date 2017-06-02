@@ -98,6 +98,5 @@ dizionario = dizionario.readlines()
 final_list = []
 for i in dizionario:
     final_list.append(i.strip())  # elimino gli /n
-
 print final_list
 pickle.dump(final_list, open("dizionario.p", "wb"))
